@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Application.Common.Clients;
 using Application.Common.MessageQ;
+using Application.Common.Models.Dto;
 using Application.Common.Models.Error;
 using Application.Common.Models.Request;
 using Application.Interfaces;
@@ -68,9 +69,17 @@ namespace Application.Services
             return await _orderRepository.InsertAsync(orderModel);
         }
 
-        public async Task<OrderModel> Update(Guid guid, UpdateRequestModel updateRequestModel)
+        public async Task<OrderModel> Update(Guid guid, UpdateOrderDto updateOrderDto)
         {
-            var result = await _orderRepository.Update(guid, updateRequestModel);
+            var orderModel = new OrderModel(){
+               
+                Quantity = updateOrderDto.Quantity,
+                Price = updateOrderDto.Price,
+                Status = updateOrderDto.Status,
+                Product = updateOrderDto.Product
+            };
+            
+            var result = await _orderRepository.Update(guid, orderModel);
             _messagePublisher.SendMessage(result);
             return result;
         }

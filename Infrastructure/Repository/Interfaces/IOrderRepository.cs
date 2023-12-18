@@ -13,7 +13,7 @@ namespace Infrastructure.Repository.Interfaces
         public Task<IEnumerable<OrderModel>> GetAllAsync();
         public Task<IEnumerable<OrderModel>> GetAllSkipTakeAsync(GetAllDto getAllDto);
         public Task<Guid> InsertAsync(OrderModel orderModel);
-        public Task<OrderModel> Update(Guid id, OrderModel updateDto);
+        public Task<OrderModel> Update(Guid id, OrderModel orderModel);
         public Guid Delete(Guid id);
         public void SoftDelete(Guid id, SoftDeleteDto softDeleteDto);
         public StatusDto ChangeStatus(Guid id, StatusDto statusDto); 

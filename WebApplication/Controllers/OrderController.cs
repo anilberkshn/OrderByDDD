@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Application.Common.MessageQ;
+using Application.Common.Models.Dto;
 using Application.Common.Models.Request;
 using Application.Interfaces;
 using Domain.Entities;
@@ -81,7 +82,15 @@ namespace WebApplication.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateRequestModel updateRequestModel)
         {
-            var result = await _orderService.Update(id, updateRequestModel);
+            
+            var updateOrderDto = new UpdateOrderDto() // todo : createOrderDto
+            {
+                Quantity = updateRequestModel.Quantity,
+                Price = updateRequestModel.Price,
+                Status = updateRequestModel.Status,
+                Product = updateRequestModel.Product
+            };
+            var result = await _orderService.Update(id, updateOrderDto);
             return Ok(result);
         }
 
