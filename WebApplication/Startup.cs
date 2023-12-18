@@ -2,9 +2,11 @@ using System;
 using System.Net.Http.Headers;
 using Application.Common.Clients;
 using Application.Common.MessageQ;
+using Application.Common.Middleware;
 using Application.Interfaces;
 using Application.Services;
 using Application.Validations;
+using Infrastructure.Models.Config;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Context;
 using Infrastructure.Repository.Interfaces;
@@ -15,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
-using ErrorHandlingMiddleware = Core.Middleware.ErrorHandlingMiddleware;
+// using ErrorHandlingMiddleware = Core.Middleware.ErrorHandlingMiddleware;
 
 namespace WebApplication
 {
@@ -40,10 +42,10 @@ namespace WebApplication
                 http.BaseAddress = new Uri("http://localhost:5010/");
                 http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
-            
-            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-            
-            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<GetAllValidation>());
+            //
+            // services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            // 
+            // services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<GetAllValidation>());
             
             services.AddSwaggerGen(c =>
             {

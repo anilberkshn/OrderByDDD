@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Application.Common.MessageQ;
+using Application.Common.Models.Request;
 using Application.Interfaces;
 using Domain.Entities;
-using Domain.RequestModels;
 using Domain.ResponseModels;
 using Infrastructure.Models.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -24,16 +24,16 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateDto createDto)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateRequestModel createRequestModel)
         {
             
             // IMapper kullanımı ile yapımı 
-            var order = new OrderModel()
+            var order = new OrderModel() // todo : createOrderDto
             {
-                CustomerId = createDto.CustomerId,
-                Quantity = createDto.Quantity,
-                Price = createDto.Price,
-                Product = createDto.Product
+                CustomerId = createRequestModel.CustomerId,
+                Quantity = createRequestModel.Quantity,
+                Price = createRequestModel.Price,
+                Product = createRequestModel.Product
             };
 
             await _orderService.InsertAsync(order);
@@ -79,24 +79,24 @@ namespace WebApplication.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateDto updateDto)
+        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateRequestModel updateRequestModel)
         {
-            var result = await _orderService.Update(id, updateDto);
+            var result = await _orderService.Update(id, updateRequestModel);
             return Ok(result);
         }
 
         [HttpPut("SoftDelete")]
-        public async Task<IActionResult> SoftDeleteAsync(Guid id, [FromBody] SoftDeleteDto softDeleteDto)
+        public async Task<IActionResult> SoftDeleteAsync(Guid id, [FromBody] SoftDeleteRequestModel softDeleteRequestModel)
         {
             var order = await _orderService.GetByIdAsync(id);
-            _orderService.SoftDelete(order.Id, softDeleteDto);
+            _orderService.SoftDelete(order.Id, softDeleteRequestModel);
             return Ok(id);
         }
         [HttpPut("ChangeStatus")]
-        public async Task<IActionResult> ChangeStatus(Guid id, [FromBody] StatusDto statusDto)
+        public async Task<IActionResult> ChangeStatus(Guid id, [FromBody] StatusRequestModel statusRequestModel)
         {
             var order = await _orderService.GetByIdAsync(id);
-            var orderResult=  _orderService.ChangeStatus(order.Id, statusDto);
+            var orderResult=  _orderService.ChangeStatus(order.Id, statusRequestModel);
            return Ok(id);
         }
         

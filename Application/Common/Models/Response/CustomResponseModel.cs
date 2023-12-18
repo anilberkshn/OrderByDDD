@@ -1,6 +1,6 @@
 namespace Application.Common.Models.Response
 {
-    public class CustomResponseDto
+    public class CustomResponseModel
     {
         
     }

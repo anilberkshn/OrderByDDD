@@ -1,9 +1,9 @@
 using System;
 using Domain.Entities;
 
-namespace Domain.RequestModels
+namespace Application.Common.Models.Request
 {
-    public class CreateDto
+    public class CreateRequestModel
     {
         public Guid CustomerId { get; set; }
         public int Quantity { get; set; }

@@ -36,7 +36,7 @@ namespace Infrastructure.Repository
             return await CreateAsync(orderModel);
         }
 
-        public async Task<OrderModel> Update(Guid id, UpdateDto updateDto)
+        public async Task<OrderModel> Update(Guid id, OrderModel updateDto) // todo: OrderModel 
         {
             var update = Builders<OrderModel>.Update
                 .Set(x => x.Quantity, updateDto.Quantity)

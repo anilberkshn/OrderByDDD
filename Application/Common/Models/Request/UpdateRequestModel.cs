@@ -1,8 +1,8 @@
 using Domain.Entities;
 
-namespace Domain.RequestModels
+namespace Application.Common.Models.Request
 {
-    public class UpdateDto
+    public class UpdateRequestModel
     {
         // public Guid CustomerId { get; set; }
         public int Quantity { get; set; }

@@ -1,8 +1,8 @@
 using System;
 
-namespace Domain.RequestModels
+namespace Application.Common.Models.Request
 {
-    public class SoftDeleteDto
+    public class SoftDeleteRequestModel
     {
         public DateTime DeletedTime { get; set; }
         public bool IsDeleted { get; set; }

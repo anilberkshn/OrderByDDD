@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using Application.Common.Clients;
 using Application.Common.MessageQ;
 using Application.Common.Models.Error;
-
+using Application.Common.Models.Request;
 using Application.Interfaces;
 using Domain.Entities;
-using Domain.RequestModels;
 using Infrastructure.Repository.Interfaces;
 using GetAllDto = Infrastructure.Models.Request.GetAllDto;
 
@@ -33,11 +32,11 @@ namespace Application.Services
             
             if (order == null)
             {
-               throw new CustomException(HttpStatusCode.NotFound,"Sipariş bulunamadı.");
+               throw new CustomException(HttpStatusCode.NotFound,"The order could not be found.");
             }                   
             if (order.IsDeleted)    
             {
-                throw new CustomException(HttpStatusCode.NotFound, "Sipariş bulunamadı.");
+                throw new CustomException(HttpStatusCode.NotFound, "The order could not be found.");
             }
             _messagePublisher.SendMessage(id);
             return order;
@@ -45,7 +44,7 @@ namespace Application.Services
 
         public async Task<IEnumerable<OrderModel>> GetAllAsync()
         {
-            _messagePublisher.SendMessage("getall çalıştı.");
+            _messagePublisher.SendMessage("GetAll worked.");
             return  await _orderRepository.GetAllAsync();
             
         }
@@ -69,9 +68,9 @@ namespace Application.Services
             return await _orderRepository.InsertAsync(orderModel);
         }
 
-        public async Task<OrderModel> Update(Guid guid, UpdateDto updateDto)
+        public async Task<OrderModel> Update(Guid guid, UpdateRequestModel updateRequestModel)
         {
-            var result = await _orderRepository.Update(guid, updateDto);
+            var result = await _orderRepository.Update(guid, updateRequestModel);
             _messagePublisher.SendMessage(result);
             return result;
         }
@@ -82,15 +81,15 @@ namespace Application.Services
             return _orderRepository.Delete(guid);
         }
 
-        public void SoftDelete(Guid guid,SoftDeleteDto softDeleteDto)
+        public void SoftDelete(Guid guid,SoftDeleteRequestModel softDeleteRequestModel)
         {
-            _messagePublisher.SendMessage(softDeleteDto);
-            _orderRepository.SoftDelete(guid,softDeleteDto);
+            _messagePublisher.SendMessage(softDeleteRequestModel);
+            _orderRepository.SoftDelete(guid,softDeleteRequestModel);
         }
-        public StatusDto ChangeStatus(Guid id, StatusDto statusDto)
+        public StatusRequestModel ChangeStatus(Guid id, StatusRequestModel statusRequestModel)
         {
-           _messagePublisher.SendMessage(statusDto);
-           return _orderRepository.ChangeStatus(id, statusDto);
+           _messagePublisher.SendMessage(statusRequestModel);
+           return _orderRepository.ChangeStatus(id, statusRequestModel);
         }
         
         public async Task<IEnumerable<OrderModel>> DeleteOrdersByCustomerId(Guid id)
