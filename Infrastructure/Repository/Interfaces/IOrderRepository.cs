@@ -15,8 +15,8 @@ namespace Infrastructure.Repository.Interfaces
         public Task<Guid> InsertAsync(OrderModel orderModel);
         public Task<OrderModel> Update(Guid id, OrderModel orderModel);
         public Guid Delete(Guid id);
-        public void SoftDelete(Guid id, SoftDeleteDto softDeleteDto);
-        public StatusDto ChangeStatus(Guid id, StatusDto statusDto); 
+        public void SoftDelete(Guid id, OrderModel orderModel);
+        public OrderModel ChangeStatus(Guid id, OrderModel orderModel); 
         public Task<IEnumerable<OrderModel>> DeleteOrdersByCustomerId(Guid id);
     }
 }

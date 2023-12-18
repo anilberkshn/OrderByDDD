@@ -4,7 +4,6 @@ using Application.Common.MessageQ;
 using Application.Common.Models.Dto;
 using Application.Common.Models.Request;
 using Application.Interfaces;
-using Domain.Entities;
 using Domain.ResponseModels;
 using Infrastructure.Models.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +26,9 @@ namespace WebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateRequestModel createRequestModel)
         {
-            
-            // IMapper kullanımı ile yapımı 
-            var order = new OrderModel() // todo : createOrderDto
+            var order = new CreateOrderDto() // todo : createOrderDto
             {
+                OrderId = createRequestModel.OrderId,
                 CustomerId = createRequestModel.CustomerId,
                 Quantity = createRequestModel.Quantity,
                 Price = createRequestModel.Price,
@@ -41,9 +39,8 @@ namespace WebApplication.Controllers
 
             var response = new CreateResponse()
             {
-                Id = order.Id
+                Id = order.OrderId
             };
-            
             
             return Ok(response);
         }
@@ -63,7 +60,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet("AllWithSkipTake")]
-        public async Task<IActionResult> GetAllSkipTakeAsync([FromQuery] GetAllDto getAllDto)
+        public async Task<IActionResult> GetAllSkipTakeAsync([FromQuery] GetAllDto getAllDto) // todo : Request model --> DtoModel infrastructure kısmında kulllanımı düzeltilecek önce.
         {
             var getAll = await _orderService.GetAllSkipTakeAsync(getAllDto);
             return Ok(getAll);
@@ -83,7 +80,7 @@ namespace WebApplication.Controllers
         public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateRequestModel updateRequestModel)
         {
             
-            var updateOrderDto = new UpdateOrderDto() // todo : createOrderDto
+            var updateOrderDto = new UpdateOrderDto()
             {
                 Quantity = updateRequestModel.Quantity,
                 Price = updateRequestModel.Price,
@@ -98,14 +95,26 @@ namespace WebApplication.Controllers
         public async Task<IActionResult> SoftDeleteAsync(Guid id, [FromBody] SoftDeleteRequestModel softDeleteRequestModel)
         {
             var order = await _orderService.GetByIdAsync(id);
-            _orderService.SoftDelete(order.Id, softDeleteRequestModel);
+
+            var softDeleteOrderDto = new SoftDeleteOrderDto()
+            {
+                DeletedTime = softDeleteRequestModel.DeletedTime,
+                IsDeleted = softDeleteRequestModel.IsDeleted
+            };
+            
+            _orderService.SoftDelete(order.Id, softDeleteOrderDto);
             return Ok(id);
         }
+        
         [HttpPut("ChangeStatus")]
         public async Task<IActionResult> ChangeStatus(Guid id, [FromBody] StatusRequestModel statusRequestModel)
         {
+            var statusOrderDto = new StatusOrderDto()
+            {
+                Status = statusRequestModel.Status
+            };
             var order = await _orderService.GetByIdAsync(id);
-            var orderResult=  _orderService.ChangeStatus(order.Id, statusRequestModel);
+            var orderResult=  _orderService.ChangeStatus(order.Id, statusOrderDto);
            return Ok(id);
         }
         

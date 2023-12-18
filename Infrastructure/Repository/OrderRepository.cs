@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
-using Domain.RequestModels;
 using Infrastructure.Models.Request;
 using Infrastructure.Repository.Interfaces;
 using MongoDB.Driver;
@@ -55,17 +54,17 @@ namespace Infrastructure.Repository
           return  Delete(x => x.Id == id);
         }
 
-        public void SoftDelete(Guid id, SoftDeleteDto softDeleteDto)
+        public void SoftDelete(Guid id, OrderModel orderModel)
         {
             var softDelete  = Builders<OrderModel>.Update
-                    .Set(x => x.DeleteTime, softDeleteDto.DeletedTime)
-                    .Set(x => x.IsDeleted, softDeleteDto.IsDeleted)
+                    .Set(x => x.DeletedTime, orderModel.DeletedTime)
+                    .Set(x => x.IsDeleted, orderModel.IsDeleted)
                 ;
 
             SoftDelete(x => x.Id == id, softDelete);
         }
         
-        public StatusDto ChangeStatus(Guid id, StatusDto statusDto)
+        public OrderModel ChangeStatus(Guid id, OrderModel statusDto)
         {
             var status  = Builders<OrderModel>.Update
                     .Set(x => x.Status, statusDto.Status)
@@ -77,7 +76,6 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<OrderModel>> DeleteOrdersByCustomerId(Guid id)
         {
-           
             return  await GetByCustomerId(id);  ;
         }
     }

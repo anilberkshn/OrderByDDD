@@ -7,7 +7,7 @@ namespace Domain.Common
         public Guid Id { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
-        public DateTime DeleteTime { get; set; }
+        public DateTime DeletedTime { get; set; }
         public bool IsDeleted { get; set; } 
     }
 }

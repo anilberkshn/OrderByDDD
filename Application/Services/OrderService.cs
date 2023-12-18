@@ -15,30 +15,34 @@ using GetAllDto = Infrastructure.Models.Request.GetAllDto;
 
 namespace Application.Services
 {
-    public class OrderService: IOrderService
+    public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
         private readonly ICustomerHttpClient _customerHttpClient;
         private readonly IMessageProducer _messagePublisher;
-        
-        public OrderService(IOrderRepository orderRepository, ICustomerHttpClient customerHttpClient, IMessageProducer messagePublisher)
+
+        public OrderService(IOrderRepository orderRepository, ICustomerHttpClient customerHttpClient,
+            IMessageProducer messagePublisher)
         {
             _orderRepository = orderRepository;
             _customerHttpClient = customerHttpClient;
             _messagePublisher = messagePublisher;
         }
+
         public async Task<OrderModel> GetByIdAsync(Guid id)
         {
             var order = await _orderRepository.GetByIdAsync(id);
-            
+
             if (order == null)
-            {
-               throw new CustomException(HttpStatusCode.NotFound,"The order could not be found.");
-            }                   
-            if (order.IsDeleted)    
             {
                 throw new CustomException(HttpStatusCode.NotFound, "The order could not be found.");
             }
+
+            if (order.IsDeleted)
+            {
+                throw new CustomException(HttpStatusCode.NotFound, "The order could not be found.");
+            }
+
             _messagePublisher.SendMessage(id);
             return order;
         }
@@ -46,39 +50,46 @@ namespace Application.Services
         public async Task<IEnumerable<OrderModel>> GetAllAsync()
         {
             _messagePublisher.SendMessage("GetAll worked.");
-            return  await _orderRepository.GetAllAsync();
-            
+            return await _orderRepository.GetAllAsync();
         }
-      
+
         public async Task<IEnumerable<OrderModel>> GetAllSkipTakeAsync(GetAllDto getAllDto)
         {
             return await _orderRepository.GetAllSkipTakeAsync(getAllDto);
         }
 
-        public async Task<Guid> InsertAsync(OrderModel orderModel)
+        public async Task<Guid> InsertAsync(CreateOrderDto createOrderDto)
         {
-            var customer = await _customerHttpClient.GetCustomerFromCustomerApi(orderModel.CustomerId);
+            var customer = await _customerHttpClient.GetCustomerFromCustomerApi(createOrderDto.CustomerId);
+            var orderModel = new OrderModel()
+            {
+                Id = createOrderDto.OrderId,
+                CustomerId = createOrderDto.CustomerId,
+                Quantity = createOrderDto.Quantity,
+                Price = createOrderDto.Price,
+                Product = createOrderDto.Product,
+            };
             // if (customer == null)
             // {
             //     throw new CustomException(HttpStatusCode.NotFound, "Customer bulunamadı. ");
             // }
-            orderModel.Address = customer.Address;
-            
+            createOrderDto.Address = customer.Address;
+
             _messagePublisher.SendMessage(orderModel);
-            
+
             return await _orderRepository.InsertAsync(orderModel);
         }
 
         public async Task<OrderModel> Update(Guid guid, UpdateOrderDto updateOrderDto)
         {
-            var orderModel = new OrderModel(){
-               
+            var orderModel = new OrderModel()
+            {
                 Quantity = updateOrderDto.Quantity,
                 Price = updateOrderDto.Price,
                 Status = updateOrderDto.Status,
                 Product = updateOrderDto.Product
             };
-            
+
             var result = await _orderRepository.Update(guid, orderModel);
             _messagePublisher.SendMessage(result);
             return result;
@@ -90,17 +101,23 @@ namespace Application.Services
             return _orderRepository.Delete(guid);
         }
 
-        public void SoftDelete(Guid guid,SoftDeleteRequestModel softDeleteRequestModel)
+        public void SoftDelete(Guid guid, SoftDeleteOrderDto softDeleteOrderDto)
         {
-            _messagePublisher.SendMessage(softDeleteRequestModel);
-            _orderRepository.SoftDelete(guid,softDeleteRequestModel);
+            var orderModel = new OrderModel()
+            {
+                IsDeleted = softDeleteOrderDto.IsDeleted,
+                DeletedTime = softDeleteOrderDto.DeletedTime
+            };
+            //_messagePublisher.SendMessage(softDeleteOrderDto);
+            _orderRepository.SoftDelete(guid, orderModel);
         }
-        public StatusRequestModel ChangeStatus(Guid id, StatusRequestModel statusRequestModel)
+
+        public StatusOrderDto ChangeStatus(Guid id, StatusOrderDto statusOrderDto)
         {
-           _messagePublisher.SendMessage(statusRequestModel);
-           return _orderRepository.ChangeStatus(id, statusRequestModel);
+            _messagePublisher.SendMessage(statusOrderDto);
+            return _orderRepository.ChangeStatus(id, statusOrderDto);
         }
-        
+
         public async Task<IEnumerable<OrderModel>> DeleteOrdersByCustomerId(Guid id)
         {
             //var customer = await _customerHttpClient.CheckCustomerId(id);
@@ -111,14 +128,11 @@ namespace Application.Services
             var ordersByCustomerId = orders.ToList();
             foreach (var order in ordersByCustomerId)
             {
-                //  Delete(order.Id);
+                //  Delete(order.OrderId);
             }
 
             Console.WriteLine(ordersByCustomerId);
             return ordersByCustomerId;
-            
         }
-        
-        
     }
 }

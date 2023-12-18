@@ -79,7 +79,7 @@ namespace Infrastructure.Repository
         {
             var filter = Builders<T>.Filter.Where(expression);
 
-            var update = updateDefinition.Set(x => x.DeleteTime, DateTime.Now)
+            var update = updateDefinition.Set(x => x.DeletedTime, DateTime.Now)
                 .Set(x => x.IsDeleted, true);
             _collection.FindOneAndUpdate<T>(filter, update);
         }
