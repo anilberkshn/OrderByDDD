@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
-using Domain.RequestModels;
 using Infrastructure.Models.Request;
 
 namespace Infrastructure.Repository.Interfaces

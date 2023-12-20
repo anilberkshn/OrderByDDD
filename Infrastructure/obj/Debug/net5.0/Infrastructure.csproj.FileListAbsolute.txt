@@ -3,3 +3,13 @@ C:\Users\asuspc\RiderProjects\Order\Infrastructure\obj\Debug\net5.0\Infrastructu
 C:\Users\asuspc\RiderProjects\Order\Infrastructure\obj\Debug\net5.0\Infrastructure.AssemblyInfoInputs.cache
 C:\Users\asuspc\RiderProjects\Order\Infrastructure\obj\Debug\net5.0\Infrastructure.AssemblyInfo.cs
 C:\Users\asuspc\RiderProjects\Order\Infrastructure\obj\Debug\net5.0\Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\bin\Debug\net5.0\Infrastructure.deps.json
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\bin\Debug\net5.0\Infrastructure.dll
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\bin\Debug\net5.0\ref\Infrastructure.dll
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\bin\Debug\net5.0\Infrastructure.pdb
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\bin\Debug\net5.0\Domain.dll
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\bin\Debug\net5.0\Domain.pdb
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\obj\Debug\net5.0\Infrastructure.csproj.CopyComplete
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\obj\Debug\net5.0\Infrastructure.dll
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\obj\Debug\net5.0\ref\Infrastructure.dll
+C:\Users\asuspc\RiderProjects\Order\Infrastructure\obj\Debug\net5.0\Infrastructure.pdb

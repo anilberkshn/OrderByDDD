@@ -64,14 +64,14 @@ namespace Infrastructure.Repository
             SoftDelete(x => x.Id == id, softDelete);
         }
         
-        public OrderModel ChangeStatus(Guid id, OrderModel statusDto)
+        public OrderModel ChangeStatus(Guid id, OrderModel orderModel)
         {
             var status  = Builders<OrderModel>.Update
-                    .Set(x => x.Status, statusDto.Status)
+                    .Set(x => x.Status, orderModel.Status)
                     ;
 
             Update(x => x.Id == id, status);
-            return statusDto;
+            return orderModel;
         }
 
         public async Task<IEnumerable<OrderModel>> DeleteOrdersByCustomerId(Guid id)

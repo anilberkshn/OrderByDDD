@@ -7,7 +7,6 @@ using Application.Common.Clients;
 using Application.Common.MessageQ;
 using Application.Common.Models.Dto;
 using Application.Common.Models.Error;
-using Application.Common.Models.Request;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Repository.Interfaces;
@@ -114,15 +113,19 @@ namespace Application.Services
 
         public StatusOrderDto ChangeStatus(Guid id, StatusOrderDto statusOrderDto)
         {
+            var orderModel = new OrderModel()
+            {
+                Status = statusOrderDto.Status
+            };
+            
             _messagePublisher.SendMessage(statusOrderDto);
-            return _orderRepository.ChangeStatus(id, statusOrderDto);
+            _orderRepository.ChangeStatus(id, orderModel);
+            return statusOrderDto;
         }
 
         public async Task<IEnumerable<OrderModel>> DeleteOrdersByCustomerId(Guid id)
         {
             //var customer = await _customerHttpClient.CheckCustomerId(id);
-
-
             var orders = await _orderRepository.DeleteOrdersByCustomerId(id);
 
             var ordersByCustomerId = orders.ToList();

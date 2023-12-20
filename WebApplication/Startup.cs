@@ -17,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
-// using ErrorHandlingMiddleware = Core.Middleware.ErrorHandlingMiddleware;
 
 namespace WebApplication
 {
