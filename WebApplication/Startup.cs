@@ -6,6 +6,7 @@ using Application.Common.Middleware;
 using Application.Interfaces;
 using Application.Services;
 using Application.Validations;
+using FluentValidation.AspNetCore;
 using Infrastructure.Models.Config;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Context;
@@ -35,16 +36,15 @@ namespace WebApplication
         {
 
             services.AddScoped<ICustomerHttpClient>(sp =>sp.GetRequiredService<CustomerHttpClient>());
-            // services.AddHostedService<CustomerConsumer>();
+
             services.AddHttpClient<CustomerHttpClient>((sp, http) =>
             {
                 http.BaseAddress = new Uri("http://localhost:5010/");
                 http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
-            //
-            // services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-            // 
-            // services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<GetAllValidation>());
+            
+            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<GetAllValidation>());
             
             services.AddSwaggerGen(c =>
             {
@@ -59,7 +59,7 @@ namespace WebApplication
             services.AddScoped<IOrderService, OrderService>();
             services.AddSingleton<IContext, Context>(_ => context);
             services.AddSingleton<IOrderRepository, OrderRepository>();
-         
+   
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
