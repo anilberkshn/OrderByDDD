@@ -35,15 +35,16 @@ namespace Infrastructure.Repository
             return await CreateAsync(orderModel);
         }
 
-        public async Task<OrderModel> Update(Guid id, OrderModel orderModel) // todo: OrderModel 
+        public async Task<OrderModel> Update(Guid id, OrderModel orderModel)
         {
             var update = Builders<OrderModel>.Update
-                .Set(x=>  x.Id, orderModel.Id)
+                // .Set(x=>  x.Id, orderModel.Id)
                 .Set(x => x.Quantity, orderModel.Quantity)
                 .Set(x => x.Price, orderModel.Price)
                 .Set(x => x.Status, orderModel.Status)
                 .Set(x => x.Product, orderModel.Product)
-                .Set(x => x.Address, orderModel.Address);
+                // .Set(x => x.Address, orderModel.Address)
+                ;
 
             Update(x => x.Id == id, update);
             return await GetByIdAsync(id);
