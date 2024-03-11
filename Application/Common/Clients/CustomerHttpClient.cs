@@ -33,8 +33,7 @@ namespace Application.Common.Clients
         }
         public async Task<bool> CheckCustomerId(Guid customerId)
         {
-            // todo: bu kısımdan consumera request atılacak. 
-            var response = await _httpClient.GetAsync($"api/customers/{customerId}");
+           var response = await _httpClient.GetAsync($"api/customers/{customerId}");
             
             if (response.IsSuccessStatusCode)
             {

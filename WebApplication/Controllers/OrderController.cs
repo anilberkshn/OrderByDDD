@@ -26,7 +26,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateRequestModel createRequestModel)
         {
-            var order = new CreateOrderDto() // todo : createOrderDto
+            var order = new CreateOrderDto() 
             {
                 OrderId = createRequestModel.OrderId,
                 CustomerId = createRequestModel.CustomerId,
@@ -60,7 +60,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet("AllWithSkipTake")]
-        public async Task<IActionResult> GetAllSkipTakeAsync([FromQuery] GetAllDto getAllDto) // todo : Request model --> DtoModel infrastructure kısmında kulllanımı düzeltilecek önce.
+        public async Task<IActionResult> GetAllSkipTakeAsync([FromQuery] GetAllDto getAllDto)
         {
             var getAll = await _orderService.GetAllSkipTakeAsync(getAllDto);
             return Ok(getAll);
