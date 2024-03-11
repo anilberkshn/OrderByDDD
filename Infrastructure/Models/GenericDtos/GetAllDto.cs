@@ -1,4 +1,4 @@
-namespace Infrastructure.Models.Request
+namespace Infrastructure.Models.GenericDtos
 {
     public class GetAllDto
     {

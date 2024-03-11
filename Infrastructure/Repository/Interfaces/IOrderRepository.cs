@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
-using Infrastructure.Models.Request;
+using Infrastructure.Models.GenericDtos;
 
 namespace Infrastructure.Repository.Interfaces
 {

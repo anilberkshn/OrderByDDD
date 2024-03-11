@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Application.Common.MessageQ;
 using Application.Common.Models.Dto;
 using Application.Common.Models.Request;
+using Application.Common.Models.Response;
 using Application.Interfaces;
-using Domain.ResponseModels;
-using Infrastructure.Models.Request;
+using Infrastructure.Models.GenericDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication.Controllers

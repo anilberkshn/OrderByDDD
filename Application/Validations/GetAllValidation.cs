@@ -1,5 +1,5 @@
 using FluentValidation;
-using Infrastructure.Models.Request;
+using Infrastructure.Models.GenericDtos;
 
 namespace Application.Validations
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Domain.Common;
-using Infrastructure.Models.Request;
+using Infrastructure.Models.GenericDtos;
 using Infrastructure.Repository.Interfaces;
 using MongoDB.Driver;
 

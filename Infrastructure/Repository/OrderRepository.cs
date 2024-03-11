@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
-using Infrastructure.Models.Request;
+using Infrastructure.Models.GenericDtos;
 using Infrastructure.Repository.Interfaces;
 using MongoDB.Driver;
 

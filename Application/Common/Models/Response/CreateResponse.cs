@@ -1,6 +1,6 @@
 using System;
 
-namespace Domain.ResponseModels
+namespace Application.Common.Models.Response
 {
     public class CreateResponse
     {

@@ -5,7 +5,7 @@ using Application.Common.Models;
 using Application.Common.Models.Dto;
 using Application.Common.Models.Request;
 using Domain.Entities;
-using Infrastructure.Models.Request;
+using Infrastructure.Models.GenericDtos;
 
 namespace Application.Interfaces
 {

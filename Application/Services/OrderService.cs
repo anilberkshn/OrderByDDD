@@ -10,7 +10,7 @@ using Application.Common.Models.Error;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Repository.Interfaces;
-using GetAllDto = Infrastructure.Models.Request.GetAllDto;
+using GetAllDto = Infrastructure.Models.GenericDtos.GetAllDto;
 
 namespace Application.Services
 {
